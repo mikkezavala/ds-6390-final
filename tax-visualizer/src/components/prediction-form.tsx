@@ -10,28 +10,15 @@ import {StateFields} from "@/components/form/state-fields"
 import {CategoricalFields} from "@/components/form/categorical-fields"
 import {BadgeDollarSign, Info, MapPin, Settings} from "lucide-react";
 import ClusterVisualizer from "@/components/plot/cluster-group";
+import {defaultValues} from "@/lib/common";
+import {PredictionFormType, PredictionResponse} from "@/types/common";
 
-const defaultValues = {
-    box_1_wages: 50000, box_3_social_security_wages: 40000,
-    box_4_social_security_tax_withheld: 2000, box_5_medicare_wages: 40000,
-    box_6_medicare_wages_tax_withheld: 1000, box_7_social_security_tips: 0,
-    box_8_allocated_tips: 0, box_10_dependent_care_benefits: 0,
-    box_11_nonqualified_plans: 0, box_13_statutary_employee: false,
-    box_13_retirement_plan: true, box_13_third_part_sick_pay: false,
-    box_16_1_state_wages: 30000, box_17_1_state_income_tax: 1000,
-    box_18_1_local_wages: 0, box_19_1_local_income_tax: 0,
-    box_16_2_state_wages: 0, box_17_2_state_income_tax: 0,
-    box_18_2_local_wages: 0, box_19_2_local_income_tax: 0,
-    box_12a_code: "None", box_12b_code: "None",
-    box_12c_code: "None", box_12d_code: "None",
-    box_15_1_state: "CA", box_15_2_state: "None"
-}
 
 export default function PredictionForm() {
     const form = useForm({defaultValues})
-    const [result, setResult] = useState<{ anomaly: boolean; probability: number } | null>(null)
+    const [result, setResult] = useState<PredictionResponse | null>(null)
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: PredictionFormType) => {
         const res = await fetch("http://localhost:8000/predict", {
             method: "POST", headers: {"Content-Type": "application/json"},
             body: JSON.stringify(values)

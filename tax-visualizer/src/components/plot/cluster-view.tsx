@@ -6,26 +6,19 @@ import { useEffect, useState, useMemo } from "react";
 import { OrbitControls, Html, Instances, Instance } from "@react-three/drei";
 import { Card, CardContent } from "@/components/ui/card";
 import {Canvas} from "@react-three/fiber";
+import {PredictionResponse} from "@/types/common";
 
-
-interface ClusterRow {
-    PC1: number;
-    PC2: number;
-    PC3: number;
-    cluster: number;
-    anomaly: boolean;
-}
 
 export default function ClusterViewer3D() {
     const [points, setPoints] = useState<THREE.Vector3[]>([]);
     const [colors, setColors] = useState<string[]>([]);
     const [hovered, setHovered] = useState<number | null>(null);
-    const [metadata, setMetadata] = useState<ClusterRow[]>([]);
+    const [metadata, setMetadata] = useState<PredictionResponse[]>([]);
 
     useEffect(() => {
         const load = async () => {
-            const res = await fetch("/cluster_points_3d.json");
-            const data: ClusterRow[] = await res.json();
+            const res = await fetch("/assets/cluster_points.json");
+            const data: PredictionResponse[] = await res.json();
             const colorMap = d3.schemeCategory10;
 
             setPoints(data.map((d) => new THREE.Vector3(d.PC1, d.PC2, d.PC3)));

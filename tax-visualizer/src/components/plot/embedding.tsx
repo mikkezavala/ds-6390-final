@@ -37,8 +37,8 @@ export default function EmbeddingViewer() {
     useEffect(() => {
         const fetchData = async () => {
             const [embeddingRes, metadataRes] = await Promise.all([
-                fetch("/tax_embeddings.tsv"),
-                fetch("/tax_metadata.tsv"),
+                fetch("/assets/tax_embeddings.tsv"),
+                fetch("/assets/tax_metadata.tsv"),
             ]);
 
             const embeddingText = await embeddingRes.text();

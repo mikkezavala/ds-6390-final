@@ -1,28 +1,15 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Html } from "@react-three/drei"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {PredictionResponseCluster, Props} from "@/types/common";
 
-interface ClusterPoint {
-    PC1: number
-    PC2: number
-    PC3: number
-    cluster: number
-    anomaly: boolean
-}
-
-interface Props {
-    userPoint: [number, number, number]
-    cluster: number
-}
 
 export default function ClusterVisualizer({ userPoint, cluster }: Props) {
-    const [data, setData] = useState<ClusterPoint[]>([])
+    const [data, setData] = useState<PredictionResponseCluster[]>([])
 
     useEffect(() => {
-        fetch("/cluster_points.json")
+        fetch("/assets/cluster_points.json")
             .then((res) => res.json())
             .then(setData)
     }, [])
