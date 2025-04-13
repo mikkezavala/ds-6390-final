@@ -25,7 +25,7 @@ export default function ClusterViewer3D() {
             setMetadata(data);
             setColors(
                 data.map((d) =>
-                    d.anomaly ? "#e11d48" : colorMap[d.cluster % colorMap.length]
+                    d.anomaly ? "#1de15e" : colorMap[d.cluster % colorMap.length]
                 )
             );
         };

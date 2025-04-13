@@ -11,12 +11,12 @@ import {CategoricalFields} from "@/components/form/categorical-fields"
 import {BadgeDollarSign, Info, MapPin, Settings} from "lucide-react";
 import ClusterVisualizer from "@/components/plot/cluster-group";
 import {defaultValues} from "@/lib/common";
-import {PredictionFormType, PredictionResponse} from "@/types/common";
+import {PredictionFormType, PredictionResponseProb} from "@/types/common";
 
 
 export default function PredictionForm() {
     const form = useForm({defaultValues})
-    const [result, setResult] = useState<PredictionResponse | null>(null)
+    const [result, setResult] = useState<PredictionResponseProb | null>(null)
 
     const onSubmit = async (values: PredictionFormType) => {
         const res = await fetch("http://localhost:8000/predict", {

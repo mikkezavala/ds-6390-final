@@ -40,7 +40,7 @@ export interface PredictionResponse {
     anomaly: boolean
 }
 
-export interface PredictionResponseCluster extends PredictionResponse{
+export interface PredictionResponseProb extends PredictionResponse{
     probability: number;
 }
 
