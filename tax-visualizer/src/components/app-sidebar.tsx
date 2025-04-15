@@ -8,7 +8,7 @@ import {
   SidebarHeader,
   SidebarMenu,
 } from "@/components/ui/sidebar"
-import {Bot, BrainIcon, Lightbulb, LightbulbOff, SquareStackIcon} from "lucide-react";
+import {Bot, BrainIcon, ChartScatter, Lightbulb, LightbulbOff, SquareStackIcon} from "lucide-react";
 import {useTheme} from "../provider/theme-provider";
 import {Label} from "./ui/label";
 import {Switch} from "./ui/switch";
@@ -20,6 +20,11 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
+    {
+      title: "Dashboard",
+      url: "/",
+      icon: ChartScatter,
+    },
     {
       title: "Prediction",
       url: "#prediction",
