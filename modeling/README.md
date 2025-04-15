@@ -4,6 +4,30 @@ Our modeling pipeline is designed to detect anomalous federal tax withholdings i
 
 ---
 
+## Setting up
+
+You need to install pyenv. 
+
+Once installed you can install the dependencies.
+```bash
+pip install -r requirements.txt
+```
+
+## Data Preparation
+
+We used a subset of the IRS W-2 dataset, focusing on the `box_2_federal_tax_withheld` field. The dataset was preprocessed to remove duplicates and irrelevant columns.
+The reference data set was taken from: https://huggingface.co/datasets/singhsays/fake-w2-us-tax-form-dataset
+
+You need to download (did not upload given the size and GitHub restrictions) the dataset and put it in the `data` folder. 
+The dataset is around 1.5GB.
+
+The cleanup process was done by dropping unnecessary columns and encoding the categorical variables.
+
+## The Data Exploration
+
+Did a small EDA and looked for related variables for our predictors and used MLR to label first the anomalies.
+After the fact I decided to go with IsolationForest to classification and run a consensus model to get the final labels.
+
 ## Linear Regression (MLR) — Anomaly Label Engineering
 
 **Objective:** Fit a baseline model to predict `box_2_federal_tax_withheld` using numeric features.

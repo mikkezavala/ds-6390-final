@@ -1,0 +1,12 @@
+joblib
+keras
+shap
+pandas
+numpy
+seaborn
+ipython
+scikit-learn
+matplotlib
+tensorflow
+pyarrow
+fastparquet
