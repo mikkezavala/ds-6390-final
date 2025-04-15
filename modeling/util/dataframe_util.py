@@ -6,6 +6,33 @@ from keras import layers, models, Input
 from keras.api import optimizers
 from keras.api.activations import gelu
 
+def clean_dataframe(df):
+    df_details = str_df(df).to_dict('records')
+    # box_9_advance_eic_payment - All column is None
+    target_drop = [
+        'box_b_employer_identification_number',
+        'box_d_control_number',
+        'box_9_advance_eic_payment',
+        'box_15_2_employee_state_id',
+        'box_15_1_employee_state_id'
+    ]
+    continuous, categorical, drop_list = (
+        [f['column'] for f in df_details if pd.api.types.is_numeric_dtype(f['dtype']) and len(f['sample_values']) > 3],
+        [f['column'] for f in df_details if
+         not pd.api.types.is_numeric_dtype(f['dtype']) or len(f['sample_values']) <= 3],
+        [f['column'] for f in df_details if
+         f["column"].startswith('box_c') or f["column"].startswith('box_a') or f["column"].startswith('box_e') or f[
+             "column"].startswith('box_20') or f['column'] in target_drop],
+    )
+
+    # Now there are boxes looks like binary but encoded with x, None. x=True, None=False
+    columns_encode = ['box_13_statutary_employee', 'box_13_retirement_plan', 'box_13_third_part_sick_pay']
+    df[columns_encode] = df[columns_encode].replace({'x': True, "None": False, np.nan: False}).astype(bool)
+    df[df.select_dtypes(exclude=['bool', 'float64', 'int64']).columns] = df.select_dtypes(
+        exclude=['bool', 'float64', 'int64']).astype('category')
+    df[df.select_dtypes(include=['bool']).columns] = df.select_dtypes(include=['bool']).astype('int64')
+    # Drop and inspect
+    return df.drop(drop_list, axis=1)
 
 def str_df(df):
     summary = []

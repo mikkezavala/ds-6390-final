@@ -1,12 +1,5 @@
 import * as React from "react"
-import {
-  IconDashboard,
-  IconDatabase,
-  IconSettings
-} from "@tabler/icons-react"
-
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -14,10 +7,11 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import {BrainIcon, SquareStackIcon} from "lucide-react";
+import {Bot, BrainIcon, Lightbulb, LightbulbOff, SquareStackIcon} from "lucide-react";
+import {useTheme} from "../provider/theme-provider";
+import {Label} from "./ui/label";
+import {Switch} from "./ui/switch";
 
 const data = {
   user: {
@@ -27,9 +21,9 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
-      url: "#home",
-      icon: IconDashboard,
+      title: "Prediction",
+      url: "#prediction",
+      icon: Bot,
     },
     {
       title: "Embeddings",
@@ -42,44 +36,33 @@ const data = {
       icon: SquareStackIcon,
     }
   ],
-  navClouds: [
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: IconSettings,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-  ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const {theme, setTheme} = useTheme()
+  const switchTheme = (e: boolean) => {
+    setTheme(e ? "light" : "dark")
+  }
+
+  const isDarkMode = theme === "dark"
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="/">
-                🧠<span className="text-base font-semibold">Tax Visualizer.</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          <div className="flex w-full items-center justify-between">
+            <div className="text-base font-medium text-foreground">
+              🧠 Tax Visualizer
+            </div>
+            <Label className="flex items-center gap-2 text-sm">
+              {isDarkMode ? <LightbulbOff size={16}/> : <Lightbulb size={16}/>}
+              <Switch checked={!isDarkMode} onCheckedChange={switchTheme} className="shadow-none" />
+            </Label>
+          </div>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

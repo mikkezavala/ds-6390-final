@@ -19,13 +19,13 @@ export default function ClusterViewer3D() {
         const load = async () => {
             const res = await fetch("/assets/cluster_points.json");
             const data: PredictionResponse[] = await res.json();
-            const colorMap = d3.schemeCategory10;
+            const colorMap = d3.schemePaired;
 
             setPoints(data.map((d) => new THREE.Vector3(d.PC1, d.PC2, d.PC3)));
             setMetadata(data);
             setColors(
                 data.map((d) =>
-                    d.anomaly ? "#1de15e" : colorMap[d.cluster % colorMap.length]
+                    d.anomaly ? "#1de1bd" : colorMap[d.cluster]
                 )
             );
         };
@@ -46,13 +46,13 @@ export default function ClusterViewer3D() {
             <Card className="w-full">
                 <CardContent className="p-2">
                     <div className="h-[80vh] w-full">
-                        <Canvas camera={{ position: [0, 0, 6], fov: 60 }}>
-                            <ambientLight intensity={0.5} />
+                        <Canvas camera={{ position: [2, 0, 6], fov: 100 }}>
+                            <ambientLight intensity={1} />
                             <pointLight position={[10, 10, 10]} />
                             <OrbitControls />
 
-                            <Instances limit={10000}>
-                                <sphereGeometry args={[0.03, 12, 12]} />
+                            <Instances>
+                                <sphereGeometry args={[0.075, 16, 16]} />
                                 <meshStandardMaterial />
 
                                 {instanceData.map((d, i) => (
@@ -65,7 +65,7 @@ export default function ClusterViewer3D() {
                                     >
                                         {hovered === i && (
                                             <Html distanceFactor={10} center>
-                                                <div className="bg-white p-2 rounded shadow text-xs">
+                                                <div className="bg-primary text-primary-foreground animate-in fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-70 w-full origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-4.5 text-md text-nowrap">
                                                     <p className="font-bold">
                                                         {d.meta.anomaly ? "Anomaly" : "Normal"}
                                                     </p>

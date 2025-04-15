@@ -1,4 +1,4 @@
-export interface PredictionFormType {
+export interface Prediction {
     // Numeric fields
     box_1_wages: number;
     box_3_social_security_wages: number;
@@ -32,6 +32,12 @@ export interface PredictionFormType {
     box_15_2_state: string;
 }
 
+export interface TaxShape extends Prediction {
+    cluster: number;
+    anomaly_consensus: boolean;
+    box_2_federal_tax_withheld: number;
+}
+
 export interface PredictionResponse {
     PC1: number
     PC2: number
@@ -47,4 +53,13 @@ export interface PredictionResponseProb extends PredictionResponse{
 export interface Props {
     userPoint: [number, number, number]
     cluster: number
+}
+
+export interface TaxComponentProps {
+    data: TaxShape[];
+}
+
+export interface TreeNode {
+    name: string
+    children?: TreeNode[]
 }
